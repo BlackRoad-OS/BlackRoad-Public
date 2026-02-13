@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BlackRoad Command Center</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="logo">
+        <div class="logo-icon">BR</div>
+        <div class="logo-text">
+          <span class="brand">BlackRoad</span>
+          <span class="tagline">Command Center</span>
+        </div>
+      </div>
+      <div class="status-indicator" title="All Systems Operational">
+        <span class="pulse"></span>
+      </div>
+    </header>
+
+    <div class="search-container">
+      <input type="text" class="search" placeholder="Search services, repos, agents..." id="search">
+    </div>
+
+    <nav class="quick-links">
+      <a href="https://blackroad-30k-agents.pages.dev" target="_blank" class="link-card featured">
+        <span class="icon">🌌</span>
+        <span class="label">30K Agents</span>
+        <span class="badge new">NEW</span>
+      </a>
+      <a href="https://github.com/BlackRoad-OS" target="_blank" class="link-card">
+        <span class="icon">📦</span>
+        <span class="label">GitHub</span>
+        <span class="count">200+</span>
+      </a>
+      <a href="https://dash.cloudflare.com" target="_blank" class="link-card">
+        <span class="icon">☁️</span>
+        <span class="label">Cloudflare</span>
+      </a>
+      <a href="https://blackroad.io" target="_blank" class="link-card">
+        <span class="icon">🏠</span>
+        <span class="label">Home</span>
+      </a>
+    </nav>
+
+    <section class="section">
+      <h3 class="section-title">
+        <span class="icon">🚀</span> Live Services
+      </h3>
+      <div class="services-grid" id="services">
+        <a href="https://lucidia.earth" target="_blank" class="service">
+          <span class="dot green"></span>
+          <span>Lucidia Earth</span>
+        </a>
+        <a href="https://blackroadai.com" target="_blank" class="service">
+          <span class="dot green"></span>
+          <span>BlackRoad AI</span>
+        </a>
+        <a href="https://blackroadquantum.com" target="_blank" class="service">
+          <span class="dot green"></span>
+          <span>Quantum</span>
+        </a>
+        <a href="https://blackroad-monitoring.pages.dev" target="_blank" class="service">
+          <span class="dot amber"></span>
+          <span>Monitoring</span>
+        </a>
+        <a href="https://blackroad-dashboard.pages.dev" target="_blank" class="service">
+          <span class="dot green"></span>
+          <span>Dashboard</span>
+        </a>
+        <a href="https://blackroad-api.pages.dev" target="_blank" class="service">
+          <span class="dot green"></span>
+          <span>API</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="section">
+      <h3 class="section-title">
+        <span class="icon">🤖</span> Agent Fleet
+      </h3>
+      <div class="stats-row">
+        <div class="stat">
+          <span class="stat-value pink">30,000</span>
+          <span class="stat-label">Total Agents</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value green">28,547</span>
+          <span class="stat-label">Active</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value amber">1,453</span>
+          <span class="stat-label">Learning</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h3 class="section-title">
+        <span class="icon">⚡</span> Quick Actions
+      </h3>
+      <div class="actions-grid">
+        <button class="action-btn" onclick="openUrl('https://github.com/orgs/BlackRoad-OS/repositories?q=&type=all&language=&sort=pushed')">
+          <span class="icon">📊</span>
+          Recent Repos
+        </button>
+        <button class="action-btn" onclick="openUrl('https://dash.cloudflare.com/?to=/:account/pages')">
+          <span class="icon">📄</span>
+          Pages
+        </button>
+        <button class="action-btn" onclick="openUrl('https://dash.cloudflare.com/?to=/:account/workers')">
+          <span class="icon">⚙️</span>
+          Workers
+        </button>
+        <button class="action-btn" onclick="openUrl('https://dashboard.stripe.com')">
+          <span class="icon">💳</span>
+          Stripe
+        </button>
+      </div>
+    </section>
+
+    <section class="section">
+      <h3 class="section-title">
+        <span class="icon">🏢</span> Organizations
+      </h3>
+      <div class="orgs-grid" id="orgs">
+        <a href="https://github.com/BlackRoad-OS" target="_blank" class="org" title="BlackRoad-OS">OS</a>
+        <a href="https://github.com/BlackRoad-AI" target="_blank" class="org" title="BlackRoad-AI">AI</a>
+        <a href="https://github.com/BlackRoad-Cloud" target="_blank" class="org" title="BlackRoad-Cloud">Cloud</a>
+        <a href="https://github.com/BlackRoad-Security" target="_blank" class="org" title="BlackRoad-Security">Sec</a>
+        <a href="https://github.com/BlackRoad-Labs" target="_blank" class="org" title="BlackRoad-Labs">Labs</a>
+        <a href="https://github.com/BlackRoad-Foundation" target="_blank" class="org" title="BlackRoad-Foundation">Found</a>
+        <a href="https://github.com/BlackRoad-Media" target="_blank" class="org" title="BlackRoad-Media">Media</a>
+        <a href="https://github.com/BlackRoad-Education" target="_blank" class="org" title="BlackRoad-Education">Edu</a>
+        <a href="https://github.com/BlackRoad-Hardware" target="_blank" class="org" title="BlackRoad-Hardware">HW</a>
+        <a href="https://github.com/BlackRoad-Interactive" target="_blank" class="org" title="BlackRoad-Interactive">Game</a>
+        <a href="https://github.com/BlackRoad-Studio" target="_blank" class="org" title="BlackRoad-Studio">Studio</a>
+        <a href="https://github.com/BlackRoad-Ventures" target="_blank" class="org" title="BlackRoad-Ventures">VC</a>
+        <a href="https://github.com/BlackRoad-Gov" target="_blank" class="org" title="BlackRoad-Gov">Gov</a>
+        <a href="https://github.com/BlackRoad-Archive" target="_blank" class="org" title="BlackRoad-Archive">Arch</a>
+        <a href="https://github.com/Blackbox-Enterprises" target="_blank" class="org" title="Blackbox-Enterprises">BB</a>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span class="version">v1.0.0</span>
+      <span class="divider">|</span>
+      <span class="kind-light">Kind Light Mode</span>
+      <span class="divider">|</span>
+      <span class="heart">Made with ☀️</span>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
