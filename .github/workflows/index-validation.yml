@@ -1,0 +1,177 @@
+name: INDEX.md Validation
+
+on:
+  pull_request:
+    branches: [main, master]
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate-index:
+    name: Validate INDEX.md
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch base branch
+        run: git fetch origin ${{ github.base_ref }}
+
+      - name: Validate INDEX.md
+        id: validate
+        run: |
+          #!/bin/bash
+          set -e
+
+          ERRORS=""
+          WARNINGS=""
+          REPORT=""
+          VALID_STATUSES="active|experimental|archived|deprecated|frozen|planned|tbd"
+
+          # Check required sections in INDEX.md
+          check_required_sections() {
+            local index_file="$1"
+            local missing=""
+
+            if ! grep -qi "## What This Repo IS" "$index_file"; then
+              missing="$missing\n- Missing: '## What This Repo IS'"
+            fi
+            if ! grep -qi "## What This Repo is NOT" "$index_file"; then
+              missing="$missing\n- Missing: '## What This Repo is NOT'"
+            fi
+            if ! grep -qi "## Directory Structure" "$index_file"; then
+              missing="$missing\n- Missing: '## Directory Structure'"
+            fi
+            echo "$missing"
+          }
+
+          # Get new directories with significant content
+          get_new_dirs() {
+            local base_ref="origin/${{ github.base_ref }}"
+            local new_dirs=""
+
+            changed_files=$(git diff --name-only "$base_ref"...HEAD 2>/dev/null || echo "")
+            [ -z "$changed_files" ] && { echo ""; return; }
+
+            declare -A dir_count
+            while IFS= read -r file; do
+              [ -n "$file" ] || continue
+              dir=$(dirname "$file" | cut -d'/' -f1-2)
+              [ "$dir" != "." ] && dir_count["$dir"]=$((${dir_count["$dir"]:-0} + 1))
+            done <<< "$changed_files"
+
+            for dir in "${!dir_count[@]}"; do
+              [ "${dir_count[$dir]}" -ge 5 ] && new_dirs="$new_dirs $dir"
+            done
+            echo "$new_dirs"
+          }
+
+          # Check if INDEX.md was updated
+          index_updated() {
+            git diff --name-only "origin/${{ github.base_ref }}"...HEAD 2>/dev/null | grep -q "INDEX.md"
+          }
+
+          # === MAIN VALIDATION ===
+          REPORT="## INDEX.md Validation Report\n\n"
+
+          # 1. Check INDEX.md exists
+          if [ ! -f "INDEX.md" ]; then
+            ERRORS="\n- **CRITICAL**: INDEX.md not found in repository root"
+            echo "has_errors=true" >> $GITHUB_OUTPUT
+            echo "report<<EOF" >> $GITHUB_OUTPUT
+            echo -e "$REPORT### Errors\n$ERRORS" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          REPORT="$REPORT### Validation Results\n\n"
+
+          # 2. Check required sections
+          SECTION_ISSUES=$(check_required_sections "INDEX.md")
+          if [ -n "$SECTION_ISSUES" ]; then
+            ERRORS="$ERRORS$SECTION_ISSUES"
+          else
+            REPORT="$REPORT- [x] All required sections present\n"
+          fi
+
+          # 3. Check for significant structural changes
+          NEW_DIRS=$(get_new_dirs)
+          if [ -n "$NEW_DIRS" ]; then
+            REPORT="$REPORT\n### New Directories Detected\n"
+            for dir in $NEW_DIRS; do
+              REPORT="$REPORT- \`$dir\` (5+ files)\n"
+            done
+
+            if ! index_updated; then
+              ERRORS="$ERRORS\n- **INDEX.md not updated**: New directories detected but INDEX.md was not modified"
+              ERRORS="$ERRORS\n  - Please update Directory Structure section for: $NEW_DIRS"
+            else
+              REPORT="$REPORT- [x] INDEX.md was updated to reflect changes\n"
+            fi
+          else
+            REPORT="$REPORT- [x] No significant structural changes\n"
+          fi
+
+          # Build final report
+          if [ -n "$ERRORS" ]; then
+            REPORT="$REPORT\n### Errors (must fix)\n$ERRORS\n"
+            echo "has_errors=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_errors=false" >> $GITHUB_OUTPUT
+          fi
+
+          REPORT="$REPORT\n---\n*Validated by INDEX.md Enforcement*\n"
+          REPORT="$REPORT*Valid statuses: \`active\`, \`experimental\`, \`archived\`, \`deprecated\`, \`frozen\`*"
+
+          echo "report<<EOF" >> $GITHUB_OUTPUT
+          echo -e "$REPORT" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Comment on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const report = `${{ steps.validate.outputs.report }}`;
+            const hasErrors = '${{ steps.validate.outputs.has_errors }}' === 'true';
+
+            const comments = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            const botComment = comments.data.find(c =>
+              c.user.type === 'Bot' && c.body.includes('INDEX.md Validation')
+            );
+
+            const icon = hasErrors ? ':x:' : ':white_check_mark:';
+            const title = hasErrors ? 'INDEX.md Validation Failed' : 'INDEX.md Validation Passed';
+            const body = `${icon} **${title}**\n\n${report}`;
+
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: body
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: body
+              });
+            }
+
+      - name: Fail if errors
+        if: steps.validate.outputs.has_errors == 'true'
+        run: |
+          echo "::error::INDEX.md validation failed"
+          exit 1
