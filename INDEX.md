@@ -4,6 +4,43 @@
 
 This index documents the structure and purpose of all public-facing components.
 
+## What This Repo IS
+
+- Public-facing SDKs, documentation, and specifications
+- Brand assets and guidelines
+- Product showcases and examples
+- The **promise layer** — what we commit to externally
+- See [CONTRACT_BOUNDARY.md](./CONTRACT_BOUNDARY.md) for details
+
+## What This Repo is NOT
+
+- **Not internal infrastructure** — That's BlackRoad-Private
+- **Not deployment scripts** — Those are internal
+- **Not experiments or drafts** — This is polished, shippable
+- **Not a place for messy thinking** — Keep that private
+- **Not implementation details** — Only interfaces and contracts
+
+## What NEVER Belongs Here
+
+| Never Add | Why | Where Instead |
+|-----------|-----|---------------|
+| Internal scripts | Wrong audience | BlackRoad-Private/infra |
+| Unfinished features | Breaks trust | BlackRoad-Private/experimental |
+| Implementation details | Leaks internals | BlackRoad-Private |
+| Secrets or credentials | Security | Never in any repo |
+| Debug/test artifacts | Noise | .gitignore |
+
+## Promise vs Implementation
+
+See [CONTRACT_BOUNDARY.md](./CONTRACT_BOUNDARY.md) for the definitive guide on what's a promise (versioned, stable) vs implementation (can change).
+
+## Escalation
+
+If unsure whether something is public-ready:
+1. Default to BlackRoad-Private first
+2. Graduate to Public only when polished
+3. Ask in #sdk-maintainers channel
+
 ## Directory Structure
 
 ### `/sdk` - Software Development Kits
