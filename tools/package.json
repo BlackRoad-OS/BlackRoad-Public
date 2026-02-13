@@ -1,0 +1,42 @@
+{
+  "name": "@blackroad/cli",
+  "version": "1.0.0",
+  "description": "BlackRoad OS Command Line Interface",
+  "type": "module",
+  "bin": {
+    "blackroad": "./bin/blackroad.js",
+    "br": "./bin/blackroad.js"
+  },
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node bin/blackroad.js",
+    "test": "node --test",
+    "lint": "eslint src/ bin/"
+  },
+  "dependencies": {
+    "@blackroad/sdk": "^1.0.0",
+    "chalk": "^5.0.0",
+    "commander": "^11.0.0",
+    "ora": "^7.0.0",
+    "table": "^6.8.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "blackroad",
+    "cli",
+    "agents",
+    "ai"
+  ],
+  "author": "BlackRoad OS, Inc.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BlackRoad-OS/BlackRoad-Public.git",
+    "directory": "tools"
+  }
+}

@@ -176,6 +176,223 @@ paths:
                     items:
                       $ref: '#/components/schemas/CodexComponent'
 
+  /v1/codex/stats:
+    get:
+      summary: Get Codex statistics
+      operationId: getCodexStats
+      tags: [Codex]
+      responses:
+        '200':
+          description: Index statistics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CodexStats'
+
+  /v1/traffic-lights:
+    get:
+      summary: List all project statuses
+      operationId: listTrafficLights
+      tags: [Traffic Lights]
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [green, yellow, red]
+      responses:
+        '200':
+          description: List of project statuses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  projects:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TrafficLight'
+                  summary:
+                    type: object
+                    properties:
+                      green: { type: integer }
+                      yellow: { type: integer }
+                      red: { type: integer }
+
+  /v1/traffic-lights/{projectId}:
+    get:
+      summary: Get project status
+      operationId: getTrafficLight
+      tags: [Traffic Lights]
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Project status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrafficLight'
+    put:
+      summary: Set project status
+      operationId: setTrafficLight
+      tags: [Traffic Lights]
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [status, reason]
+              properties:
+                status:
+                  type: string
+                  enum: [green, yellow, red]
+                reason:
+                  type: string
+      responses:
+        '200':
+          description: Status updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrafficLight'
+
+  /v1/tasks:
+    get:
+      summary: List available tasks
+      operationId: listTasks
+      tags: [Tasks]
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [available, claimed, completed]
+        - name: priority
+          in: query
+          schema:
+            type: string
+            enum: [urgent, high, medium, low]
+      responses:
+        '200':
+          description: List of tasks
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tasks:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Task'
+                  stats:
+                    type: object
+                    properties:
+                      available: { type: integer }
+                      claimed: { type: integer }
+                      completed: { type: integer }
+    post:
+      summary: Create a task
+      operationId: createTask
+      tags: [Tasks]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [id, title, description, priority]
+              properties:
+                id:
+                  type: string
+                title:
+                  type: string
+                description:
+                  type: string
+                priority:
+                  type: string
+                  enum: [urgent, high, medium, low]
+                tags:
+                  type: array
+                  items:
+                    type: string
+                requiredSkills:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '201':
+          description: Task created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+
+  /v1/tasks/{taskId}/claim:
+    post:
+      summary: Claim a task
+      operationId: claimTask
+      tags: [Tasks]
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Task claimed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '409':
+          description: Task already claimed
+
+  /v1/tasks/{taskId}/complete:
+    post:
+      summary: Complete a task
+      operationId: completeTask
+      tags: [Tasks]
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [summary]
+              properties:
+                summary:
+                  type: string
+                artifacts:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Task completed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+
 components:
   securitySchemes:
     bearerAuth:
@@ -250,3 +467,84 @@ components:
           type: string
         repository:
           type: string
+
+    CodexStats:
+      type: object
+      properties:
+        totalComponents:
+          type: integer
+          example: 22244
+        byType:
+          type: object
+          properties:
+            functions:
+              type: integer
+            classes:
+              type: integer
+            modules:
+              type: integer
+        byLanguage:
+          type: object
+          additionalProperties:
+            type: integer
+        lastIndexed:
+          type: string
+          format: date-time
+
+    TrafficLight:
+      type: object
+      properties:
+        projectId:
+          type: string
+        status:
+          type: string
+          enum: [green, yellow, red]
+        reason:
+          type: string
+        updatedAt:
+          type: string
+          format: date-time
+        updatedBy:
+          type: string
+        history:
+          type: array
+          items:
+            type: object
+            properties:
+              status: { type: string }
+              reason: { type: string }
+              timestamp: { type: string, format: date-time }
+
+    Task:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum: [available, claimed, completed]
+        priority:
+          type: string
+          enum: [urgent, high, medium, low]
+        tags:
+          type: array
+          items:
+            type: string
+        requiredSkills:
+          type: array
+          items:
+            type: string
+        claimedBy:
+          type: string
+        completedAt:
+          type: string
+          format: date-time
+        completionSummary:
+          type: string
+        createdAt:
+          type: string
+          format: date-time

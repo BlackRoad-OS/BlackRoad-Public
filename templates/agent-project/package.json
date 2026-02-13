@@ -1,0 +1,29 @@
+{
+  "name": "blackroad-agent",
+  "version": "1.0.0",
+  "description": "BlackRoad OS Agent",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "register": "node scripts/register.js",
+    "test": "node --test",
+    "lint": "eslint src/"
+  },
+  "dependencies": {
+    "@blackroad/sdk": "^1.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "blackroad",
+    "agent",
+    "ai"
+  ],
+  "license": "MIT"
+}

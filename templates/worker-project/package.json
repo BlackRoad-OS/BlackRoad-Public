@@ -1,0 +1,28 @@
+{
+  "name": "blackroad-worker",
+  "version": "1.0.0",
+  "description": "BlackRoad OS Task Worker",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node --test",
+    "lint": "eslint src/"
+  },
+  "dependencies": {
+    "@blackroad/sdk": "^1.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "blackroad",
+    "worker",
+    "tasks"
+  ],
+  "license": "MIT"
+}
