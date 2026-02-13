@@ -1,0 +1,252 @@
+openapi: 3.0.3
+info:
+  title: BlackRoad OS API
+  description: |
+    Official API for BlackRoad OS infrastructure.
+
+    Manage AI agents, access the memory system, and search the Codex.
+  version: 1.0.0
+  contact:
+    name: BlackRoad OS Support
+    email: api@blackroad.io
+    url: https://docs.blackroad.io
+  license:
+    name: Proprietary
+    url: https://blackroad.io/license
+
+servers:
+  - url: https://api.blackroad.io
+    description: Production
+
+security:
+  - bearerAuth: []
+
+paths:
+  /v1/agents:
+    get:
+      summary: List agents
+      operationId: listAgents
+      tags: [Agents]
+      parameters:
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [ai, hardware, hybrid]
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [active, idle, offline]
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 100
+      responses:
+        '200':
+          description: List of agents
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  agents:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Agent'
+    post:
+      summary: Register agent
+      operationId: registerAgent
+      tags: [Agents]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name]
+              properties:
+                name:
+                  type: string
+                type:
+                  type: string
+                  enum: [ai, hardware, hybrid]
+                  default: ai
+                capabilities:
+                  type: array
+                  items:
+                    type: string
+                metadata:
+                  type: object
+      responses:
+        '201':
+          description: Agent created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+
+  /v1/agents/{agentId}:
+    get:
+      summary: Get agent
+      operationId: getAgent
+      tags: [Agents]
+      parameters:
+        - name: agentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Agent details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+
+  /v1/memory/log:
+    post:
+      summary: Log memory entry
+      operationId: logMemory
+      tags: [Memory]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [action, entity, details]
+              properties:
+                action:
+                  type: string
+                  enum: [announce, progress, deployed, created, configured, decided, coordinate, blocked, fixed, validated, milestone]
+                entity:
+                  type: string
+                details:
+                  type: string
+                tags:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '201':
+          description: Entry logged
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemoryEntry'
+
+  /v1/codex/search:
+    get:
+      summary: Search Codex
+      operationId: searchCodex
+      tags: [Codex]
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [function, class, module]
+        - name: language
+          in: query
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  components:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CodexComponent'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+
+  schemas:
+    Agent:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+          enum: [ai, hardware, hybrid]
+        status:
+          type: string
+          enum: [active, idle, offline]
+        capabilities:
+          type: array
+          items:
+            type: string
+        metadata:
+          type: object
+        createdAt:
+          type: string
+          format: date-time
+        lastSeen:
+          type: string
+          format: date-time
+
+    MemoryEntry:
+      type: object
+      properties:
+        id:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        action:
+          type: string
+        entity:
+          type: string
+        details:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        agentId:
+          type: string
+
+    CodexComponent:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+          enum: [function, class, module]
+        language:
+          type: string
+        filePath:
+          type: string
+        lineNumber:
+          type: integer
+        signature:
+          type: string
+        docstring:
+          type: string
+        repository:
+          type: string
