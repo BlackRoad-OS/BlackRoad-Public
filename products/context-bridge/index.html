@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Context Bridge - Never Re-explain Yourself to AI Again</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+        }
+        
+        nav {
+            background: #667eea;
+            padding: 1rem 2rem;
+            color: white;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 2rem;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+            margin: 2rem 0 1rem;
+            color: #764ba2;
+        }
+        
+        .problem {
+            background: #fff4e6;
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+        
+        .solution {
+            background: #e6f7ff;
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+        
+        .cta-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem;
+            border-radius: 12px;
+            text-align: center;
+            margin: 3rem 0;
+        }
+        
+        .cta-box h2 {
+            color: white;
+            margin-top: 0;
+        }
+        
+        .button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            margin: 0.5rem;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .feature {
+            padding: 1.5rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+        }
+        
+        code {
+            background: #f5f5f5;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Courier New', monospace;
+        }
+        
+        pre {
+            background: #1a1a1a;
+            color: #0f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        ul, ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="../../">← BlackRoad OS</a>
+        <a href="../../products/">Products</a>
+        <a href="../../docs/">Docs</a>
+    </nav>
+    
+    <div class="container">
+        <h1>Context Bridge</h1>
+        <p><strong>Never waste 10 minutes re-explaining yourself to AI again.</strong></p>
+        
+        <div class="problem">
+            <h2>The Problem</h2>
+            <p>Every time you start a new conversation with Claude, ChatGPT, or any AI assistant:</p>
+            <ul>
+                <li>You re-explain your project context</li>
+                <li>You re-state your preferences</li>
+                <li>You re-describe your role and goals</li>
+                <li>You waste 10+ minutes before getting value</li>
+            </ul>
+            <p><strong>It's exhausting. And it doesn't have to be this way.</strong></p>
+        </div>
+        
+        <div class="solution">
+            <h2>The Solution</h2>
+            <p><strong>Context Bridge</strong> creates a persistent context file that follows you everywhere.</p>
+            <ol>
+                <li><strong>Create once</strong>: Write your context (who you are, what you're building, your preferences)</li>
+                <li><strong>Host automatically</strong>: It's saved as a GitHub Gist (you own it, not us)</li>
+                <li><strong>Inject everywhere</strong>: One-click browser extension loads your context into any AI chat</li>
+            </ol>
+            <p>From 10 minutes of setup → 2 seconds of "I'm ready to work."</p>
+        </div>
+        
+        <h2>How It Works</h2>
+        
+        <div class="features">
+            <div class="feature">
+                <h3>📝 CLI Tool</h3>
+                <p>Create and manage your context from the command line.</p>
+                <code>npm install -g context-bridge</code>
+            </div>
+            
+            <div class="feature">
+                <h3>🌐 Browser Extension</h3>
+                <p>One-click inject into Claude, ChatGPT, Gemini, Copilot.</p>
+                <p><em>Chrome Web Store (coming soon)</em></p>
+            </div>
+            
+            <div class="feature">
+                <h3>🔗 GitHub Gist</h3>
+                <p>Your context is hosted as a public Gist. You control it.</p>
+            </div>
+        </div>
+        
+        <h2>Quick Start</h2>
+        
+        <pre>
+# Install CLI
+npm install -g context-bridge
+
+# Create your context
+context-bridge init
+
+# Answer a few questions
+# (Who are you? What are you building? What are your preferences?)
+
+# Push to GitHub
+context-bridge push
+
+# Install browser extension
+# Click "Inject Context" in any AI chat
+# Done! 🎉
+        </pre>
+        
+        <div class="cta-box">
+            <h2>Get Started</h2>
+            <p>Stop wasting time. Start being productive.</p>
+            <a href="https://www.npmjs.com/package/context-bridge" class="button">Install CLI →</a>
+            <a href="https://github.com/BlackRoad-OS/BlackRoad-Public/tree/main/clients/chrome-extension" class="button">Get Extension →</a>
+        </div>
+        
+        <h2>Pricing</h2>
+        <p><strong>$10/month</strong> or <strong>$100/year</strong></p>
+        <p>Includes:</p>
+        <ul>
+            <li>Unlimited context updates</li>
+            <li>CLI tool</li>
+            <li>Browser extension</li>
+            <li>GitHub Gist hosting</li>
+            <li>Priority support</li>
+        </ul>
+        <p><em>Launch pricing available until Feb 28, 2026</em></p>
+        
+        <h2>FAQ</h2>
+        
+        <p><strong>Q: Where is my data stored?</strong><br>
+        A: In a GitHub Gist that you own. We never see or store your context.</p>
+        
+        <p><strong>Q: Which AI platforms work?</strong><br>
+        A: Claude (claude.ai), ChatGPT (chat.openai.com), Gemini (gemini.google.com), GitHub Copilot.</p>
+        
+        <p><strong>Q: Can I update my context?</strong><br>
+        A: Yes! Run <code>context-bridge push</code> anytime. Changes sync immediately.</p>
+        
+        <p><strong>Q: Do I need to pay before trying?</strong><br>
+        A: Free trial available. No credit card required for first 7 days.</p>
+        
+        <hr style="margin: 3rem 0;">
+        
+        <p style="text-align: center;">
+            <a href="../../">← Back to BlackRoad OS</a> | 
+            <a href="https://github.com/BlackRoad-OS/BlackRoad-Public">GitHub</a> | 
+            <a href="../../docs/">Documentation</a>
+        </p>
+    </div>
+</body>
+</html>
