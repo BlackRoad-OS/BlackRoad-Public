@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lucidia Enhanced - The AI Coding Assistant You Own</title>
+  <meta name="description" content="Self-hosted AI coding assistant with multi-model support, tool calling, and conversation history. GitHub Copilot alternative you control.">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #000000 0%, #1a0033 50%, #000000 100%);
+      color: white;
+      line-height: 1.6;
+    }
+    
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(119, 0, 255, 0.3) 0%, transparent 70%);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: pulse 4s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+      50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.3; }
+    }
+    
+    .content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+    }
+    
+    h1 {
+      font-size: 64px;
+      margin-bottom: 24px;
+      background: linear-gradient(135deg, #FF9D00 0%, #FF0066 25%, #7700FF 75%, #0066FF 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.2;
+    }
+    
+    .subtitle {
+      font-size: 24px;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 40px;
+    }
+    
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin: 40px 0;
+      text-align: left;
+    }
+    
+    .feature {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    
+    .feature-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+    
+    .feature-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    
+    .feature-text {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    
+    .cta-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 40px;
+    }
+    
+    .btn {
+      padding: 16px 40px;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #FF0066 0%, #7700FF 100%);
+      color: white;
+      border: none;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(255, 0, 102, 0.4);
+    }
+    
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    
+    .pricing {
+      margin-top: 60px;
+      padding: 40px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+    
+    .pricing-card {
+      text-align: center;
+      padding: 24px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .pricing-card.featured {
+      border-color: #7700FF;
+      box-shadow: 0 0 30px rgba(119, 0, 255, 0.3);
+    }
+    
+    .price {
+      font-size: 48px;
+      font-weight: 700;
+      margin: 20px 0;
+    }
+    
+    .price-label {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+    
+    .comparison {
+      margin-top: 80px;
+      padding: 60px 20px;
+      background: rgba(0, 0, 0, 0.3);
+    }
+    
+    .comparison-table {
+      max-width: 1000px;
+      margin: 40px auto;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    th, td {
+      padding: 16px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    th {
+      background: rgba(119, 0, 255, 0.2);
+      font-weight: 600;
+    }
+    
+    .highlight {
+      color: #00ff88;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <div class="content">
+      <h1>The AI Assistant You Actually Own</h1>
+      <p class="subtitle">
+        Self-hosted coding assistant with multi-model support, tool calling, and full privacy.
+        <br>Your code. Your data. Your control.
+      </p>
+      
+      <div class="features">
+        <div class="feature">
+          <div class="feature-icon">🏠</div>
+          <div class="feature-title">Self-Hosted</div>
+          <div class="feature-text">Run locally or in your cloud. No vendor lock-in.</div>
+        </div>
+        
+        <div class="feature">
+          <div class="feature-icon">🤖</div>
+          <div class="feature-title">Multi-Model</div>
+          <div class="feature-text">Choose from qwen, deepseek, llama, or any Ollama model.</div>
+        </div>
+        
+        <div class="feature">
+          <div class="feature-icon">🔧</div>
+          <div class="feature-title">Tool Calling</div>
+          <div class="feature-text">Codex search, memory queries, command execution built-in.</div>
+        </div>
+        
+        <div class="feature">
+          <div class="feature-icon">💾</div>
+          <div class="feature-title">Persistent Memory</div>
+          <div class="feature-text">SQLite conversation history. Never lose context.</div>
+        </div>
+      </div>
+      
+      <div class="cta-buttons">
+        <a href="https://github.com/blackroad-os/lucidia-enhanced" class="btn btn-primary">Start Free →</a>
+        <a href="#pricing" class="btn btn-secondary">View Pricing</a>
+      </div>
+      
+      <div id="pricing" class="pricing">
+        <h2 style="text-align: center; font-size: 36px; margin-bottom: 10px;">Honest Pricing</h2>
+        <p style="text-align: center; color: rgba(255, 255, 255, 0.7); margin-bottom: 30px;">
+          Choose what works for you
+        </p>
+        
+        <div class="pricing-grid">
+          <div class="pricing-card">
+            <h3>Free</h3>
+            <div class="price">$0</div>
+            <div class="price-label">forever</div>
+            <ul style="list-style: none; margin-top: 20px; font-size: 14px;">
+              <li>✅ Run locally (Ollama)</li>
+              <li>✅ All features</li>
+              <li>✅ Open source</li>
+              <li>✅ Your infrastructure</li>
+            </ul>
+          </div>
+          
+          <div class="pricing-card featured">
+            <h3>Cloud</h3>
+            <div class="price">$29</div>
+            <div class="price-label">per month</div>
+            <ul style="list-style: none; margin-top: 20px; font-size: 14px;">
+              <li>✅ Everything in Free</li>
+              <li>✅ Hosted for you</li>
+              <li>✅ Faster models</li>
+              <li>✅ Guaranteed uptime</li>
+              <li>✅ Email support</li>
+            </ul>
+          </div>
+          
+          <div class="pricing-card">
+            <h3>Teams</h3>
+            <div class="price">$99</div>
+            <div class="price-label">per month</div>
+            <ul style="list-style: none; margin-top: 20px; font-size: 14px;">
+              <li>✅ Everything in Cloud</li>
+              <li>✅ Shared memory</li>
+              <li>✅ Team collaboration</li>
+              <li>✅ Admin dashboard</li>
+              <li>✅ Priority support</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="comparison">
+    <h2 style="text-align: center; font-size: 36px; margin-bottom: 20px;">
+      vs GitHub Copilot & Others
+    </h2>
+    
+    <div class="comparison-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Lucidia Enhanced</th>
+            <th>GitHub Copilot</th>
+            <th>Cursor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Pricing</td>
+            <td class="highlight">$0 - $29/mo</td>
+            <td>$10 - $19/mo</td>
+            <td>$0 - $20/mo</td>
+          </tr>
+          <tr>
+            <td>Self-Hosted</td>
+            <td class="highlight">✅ Yes</td>
+            <td>❌ No</td>
+            <td>❌ No</td>
+          </tr>
+          <tr>
+            <td>Model Choice</td>
+            <td class="highlight">✅ Any Ollama model</td>
+            <td>❌ GPT only</td>
+            <td>✅ Multiple</td>
+          </tr>
+          <tr>
+            <td>Privacy</td>
+            <td class="highlight">✅ Your data stays local</td>
+            <td>⚠️ Sent to GitHub</td>
+            <td>⚠️ Sent to Cursor</td>
+          </tr>
+          <tr>
+            <td>Tool Calling</td>
+            <td class="highlight">✅ 5 tools built-in</td>
+            <td>❌ No</td>
+            <td>✅ Limited</td>
+          </tr>
+          <tr>
+            <td>Conversation History</td>
+            <td class="highlight">✅ SQLite persistence</td>
+            <td>❌ No</td>
+            <td>✅ Yes</td>
+          </tr>
+          <tr>
+            <td>Open Source</td>
+            <td class="highlight">✅ MIT License</td>
+            <td>❌ Proprietary</td>
+            <td>❌ Proprietary</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <div style="text-align: center; margin-top: 40px;">
+      <a href="https://github.com/blackroad-os/lucidia-enhanced" class="btn btn-primary">
+        Get Started Free →
+      </a>
+    </div>
+  </div>
+  
+  <footer style="text-align: center; padding: 60px 20px; color: rgba(255, 255, 255, 0.5);">
+    <p>Built by <a href="https://blackroad.io" style="color: #7700FF;">BlackRoad OS</a></p>
+    <p style="margin-top: 10px; font-size: 14px;">
+      <a href="https://github.com/blackroad-os/lucidia-enhanced" style="color: rgba(255, 255, 255, 0.7);">GitHub</a> •
+      <a href="https://blackroad.io/docs" style="color: rgba(255, 255, 255, 0.7);">Docs</a> •
+      <a href="mailto:support@blackroad.io" style="color: rgba(255, 255, 255, 0.7);">Support</a>
+    </p>
+  </footer>
+</body>
+</html>

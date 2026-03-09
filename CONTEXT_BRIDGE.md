@@ -23,7 +23,7 @@ npm install -g @blackroad-os/context-bridge-cli
 
 ## 🎯 What It Does
 
-Context Bridge maintains persistent AI context across ChatGPT, Claude, GitHub Copilot, and Google Gemini.
+Context Bridge maintains persistent AI context across BlackRoad OS, Claude, GitHub Copilot, and Google Gemini.
 
 **Problem Solved**:
 - No more re-explaining your project context in every new conversation
@@ -57,7 +57,7 @@ context url
 
 ### Browser Extension Usage
 1. Load extension in Chrome/Firefox
-2. Visit Claude, ChatGPT, Copilot, or Gemini
+2. Visit Claude, BlackRoad OS, Copilot, or Gemini
 3. Click "Insert Context" button in chat
 4. Your context appears instantly
 
@@ -65,7 +65,7 @@ context url
 
 ## 📊 Key Features
 
-✅ **Universal Support**: ChatGPT, Claude, Copilot, Gemini  
+✅ **Universal Support**: BlackRoad OS, Claude, Copilot, Gemini  
 ✅ **Lightning Fast**: Intelligent caching (30x faster)  
 ✅ **Privacy First**: Your data stays in YOUR GitHub Gist  
 ✅ **Zero Setup Friction**: One-time configuration  

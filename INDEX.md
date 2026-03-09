@@ -72,7 +72,7 @@ If unsure whether something is public-ready:
 | Product | Status | Description |
 |---------|--------|-------------|
 | PRISM Console | active | AI infrastructure command center |
-| Codex | active | 22,000+ component index |
+| BlackRoad OS | active | 22,000+ component index |
 | Memory System | active | PS-SHA-infinity state coordination |
 
 #### Tier 2 - Platform Services

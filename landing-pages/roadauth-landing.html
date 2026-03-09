@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoadAuth - Enterprise IAM at 1/10th the Cost</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #1a0033 50%, #000000 100%);
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            padding: 20px 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(138, 43, 226, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #8a2be2, #da70d6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 120px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(138, 43, 226, 0.3), transparent);
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 64px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ffffff, #da70d6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .hero .subhead {
+            font-size: 24px;
+            color: #b8b8b8;
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 16px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #8a2be2, #da70d6);
+            color: #ffffff;
+            box-shadow: 0 10px 30px rgba(138, 43, 226, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(138, 43, 226, 0.6);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #ffffff;
+            border: 2px solid #8a2be2;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(138, 43, 226, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Technical Specs Banner */
+        .tech-specs {
+            background: rgba(138, 43, 226, 0.1);
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 60px auto;
+            text-align: center;
+            max-width: 800px;
+        }
+
+        .tech-specs h3 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #da70d6;
+        }
+
+        .tech-specs p {
+            font-size: 18px;
+            color: #b8b8b8;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 60px;
+            background: linear-gradient(135deg, #ffffff, #da70d6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: rgba(138, 43, 226, 0.1);
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            border-radius: 16px;
+            padding: 35px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: #8a2be2;
+            box-shadow: 0 15px 40px rgba(138, 43, 226, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #da70d6;
+        }
+
+        .feature-card p {
+            color: #b8b8b8;
+            line-height: 1.8;
+        }
+
+        /* Comparison Table */
+        .comparison {
+            padding: 80px 20px;
+        }
+
+        .comparison-table {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            border-radius: 16px;
+            overflow: hidden;
+            margin-top: 40px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 20px;
+            text-align: left;
+            border-bottom: 1px solid rgba(138, 43, 226, 0.2);
+        }
+
+        th {
+            background: rgba(138, 43, 226, 0.2);
+            font-weight: 700;
+            font-size: 18px;
+            color: #da70d6;
+        }
+
+        td {
+            color: #b8b8b8;
+        }
+
+        tr:hover {
+            background: rgba(138, 43, 226, 0.05);
+        }
+
+        .check {
+            color: #00ff88;
+            font-weight: 700;
+        }
+
+        .cross {
+            color: #ff4444;
+            font-weight: 700;
+        }
+
+        .highlight-row {
+            background: rgba(138, 43, 226, 0.15);
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 80px 20px;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .pricing-card {
+            background: rgba(138, 43, 226, 0.1);
+            border: 2px solid rgba(138, 43, 226, 0.3);
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            border-color: #8a2be2;
+            box-shadow: 0 20px 50px rgba(138, 43, 226, 0.4);
+        }
+
+        .pricing-card.featured {
+            border-color: #8a2be2;
+            background: rgba(138, 43, 226, 0.2);
+            transform: scale(1.05);
+        }
+
+        .pricing-card h3 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #da70d6;
+        }
+
+        .price {
+            font-size: 48px;
+            font-weight: 800;
+            margin: 20px 0;
+            color: #ffffff;
+        }
+
+        .price span {
+            font-size: 20px;
+            color: #b8b8b8;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .pricing-features li {
+            padding: 12px 0;
+            color: #b8b8b8;
+            border-bottom: 1px solid rgba(138, 43, 226, 0.2);
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        .pricing-features li::before {
+            content: '✓ ';
+            color: #00ff88;
+            font-weight: 700;
+            margin-right: 10px;
+        }
+
+        /* Footer */
+        footer {
+            padding: 60px 20px 30px;
+            text-align: center;
+            border-top: 1px solid rgba(138, 43, 226, 0.3);
+            margin-top: 80px;
+        }
+
+        footer p {
+            color: #b8b8b8;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .footer-links a {
+            color: #8a2be2;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #da70d6;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 42px;
+            }
+
+            .hero .subhead {
+                font-size: 18px;
+            }
+
+            .section-title {
+                font-size: 36px;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .comparison-table {
+                overflow-x: auto;
+            }
+
+            table {
+                font-size: 14px;
+            }
+
+            th, td {
+                padding: 12px;
+            }
+
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .btn {
+                padding: 12px 30px;
+                font-size: 16px;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-content, .feature-card, .pricing-card {
+            animation: fadeInUp 0.8s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">🛡️ RoadAuth</div>
+                <div class="nav-buttons">
+                    <a href="#features" class="btn btn-secondary" style="padding: 10px 25px; font-size: 16px;">Features</a>
+                    <a href="#pricing" class="btn btn-secondary" style="padding: 10px 25px; font-size: 16px;">Pricing</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Enterprise IAM at 1/10th the Cost</h1>
+                <p class="subhead">AI-powered identity & access management with 4 security agents monitoring your infrastructure 24/7</p>
+                <div class="cta-buttons">
+                    <a href="#pricing" class="btn btn-primary">Start Free Trial</a>
+                    <a href="https://github.com/blackroad-os/roadauth" class="btn btn-secondary" target="_blank">View on GitHub</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Specs -->
+    <div class="container">
+        <div class="tech-specs">
+            <h3>🚀 Production-Ready Enterprise IAM</h3>
+            <p><strong>13,796 lines of code</strong> • Battle-tested • Open Source • Self-hosted or Cloud</p>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Enterprise-Grade Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔐</div>
+                    <h3>JWT + Paseto Tokens</h3>
+                    <p>Industry-standard JWT with advanced Paseto tokens for enhanced security. Zero-trust architecture with automatic rotation.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>TOTP + WebAuthn MFA</h3>
+                    <p>Multi-factor authentication with TOTP (Google Authenticator) and hardware keys via WebAuthn (YubiKey, TouchID).</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>OAuth2 + LDAP + SAML</h3>
+                    <p>Complete SSO integration with OAuth 2.0, LDAP directory sync, and SAML 2.0 for enterprise federation.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>SCIM 2.0 Provisioning</h3>
+                    <p>Automatic user provisioning and deprovisioning with SCIM 2.0. Sync with HR systems and directories.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>4 AI Security Agents</h3>
+                    <p>Autonomous agents monitoring authentication patterns, detecting anomalies, preventing breaches, and auto-responding to threats.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Real-time Analytics</h3>
+                    <p>Comprehensive audit logs, session monitoring, compliance reporting, and security insights powered by AI.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Table -->
+    <section class="comparison">
+        <div class="container">
+            <h2 class="section-title">Why Choose RoadAuth?</h2>
+            <div class="comparison-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th class="highlight-row">RoadAuth</th>
+                            <th>Auth0</th>
+                            <th>Okta</th>
+                            <th>Azure AD</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Starting Price</strong></td>
+                            <td class="highlight-row"><strong>$99/mo</strong></td>
+                            <td>$240/mo</td>
+                            <td>$1,500/mo</td>
+                            <td>$6/user/mo</td>
+                        </tr>
+                        <tr>
+                            <td><strong>AI Security Agents</strong></td>
+                            <td class="highlight-row"><span class="check">✓ 4 agents</span></td>
+                            <td><span class="cross">✗</span></td>
+                            <td><span class="cross">✗</span></td>
+                            <td><span class="cross">✗</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>JWT + Paseto</strong></td>
+                            <td class="highlight-row"><span class="check">✓</span></td>
+                            <td><span class="check">✓ JWT only</span></td>
+                            <td><span class="check">✓ JWT only</span></td>
+                            <td><span class="check">✓ JWT only</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>WebAuthn MFA</strong></td>
+                            <td class="highlight-row"><span class="check">✓</span></td>
+                            <td><span class="check">✓ (Add-on)</span></td>
+                            <td><span class="check">✓ (Premium)</span></td>
+                            <td><span class="check">✓ (P2)</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>SAML + OAuth2 + LDAP</strong></td>
+                            <td class="highlight-row"><span class="check">✓ All included</span></td>
+                            <td><span class="check">✓ (Enterprise)</span></td>
+                            <td><span class="check">✓</span></td>
+                            <td><span class="check">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>SCIM 2.0</strong></td>
+                            <td class="highlight-row"><span class="check">✓</span></td>
+                            <td><span class="check">✓ (Enterprise)</span></td>
+                            <td><span class="check">✓</span></td>
+                            <td><span class="check">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Self-Hosted Option</strong></td>
+                            <td class="highlight-row"><span class="check">✓ Included</span></td>
+                            <td><span class="cross">✗</span></td>
+                            <td><span class="cross">✗ (Legacy)</span></td>
+                            <td><span class="cross">✗</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Open Source</strong></td>
+                            <td class="highlight-row"><span class="check">✓ MIT License</span></td>
+                            <td><span class="cross">✗</span></td>
+                            <td><span class="cross">✗</span></td>
+                            <td><span class="cross">✗</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Unlimited Users</strong></td>
+                            <td class="highlight-row"><span class="check">✓ All plans</span></td>
+                            <td><span class="cross">✗ Usage-based</span></td>
+                            <td><span class="cross">✗ Per user</span></td>
+                            <td><span class="cross">✗ Per user</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>24/7 AI Monitoring</strong></td>
+                            <td class="highlight-row"><span class="check">✓ Autonomous</span></td>
+                            <td><span class="cross">✗</span></td>
+                            <td><span class="cross">✗</span></td>
+                            <td><span class="cross">✗</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <h2 class="section-title">Simple, Transparent Pricing</h2>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Startup</h3>
+                    <div class="price">$99<span>/mo</span></div>
+                    <ul class="pricing-features">
+                        <li>Up to 10,000 MAU</li>
+                        <li>JWT + Paseto tokens</li>
+                        <li>TOTP MFA</li>
+                        <li>OAuth 2.0</li>
+                        <li>2 AI security agents</li>
+                        <li>Basic audit logs</li>
+                        <li>Email support</li>
+                        <li>Self-hosted option</li>
+                    </ul>
+                    <a href="#" class="btn btn-secondary" style="width: 100%; margin-top: 20px;">Get Started</a>
+                </div>
+
+                <div class="pricing-card featured">
+                    <h3>Business</h3>
+                    <div class="price">$499<span>/mo</span></div>
+                    <ul class="pricing-features">
+                        <li>Up to 100,000 MAU</li>
+                        <li>Everything in Startup</li>
+                        <li>WebAuthn MFA</li>
+                        <li>SAML 2.0 + LDAP</li>
+                        <li>SCIM 2.0 provisioning</li>
+                        <li>4 AI security agents</li>
+                        <li>Advanced analytics</li>
+                        <li>Priority support</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Start Free Trial</a>
+                </div>
+
+                <div class="pricing-card">
+                    <h3>Enterprise</h3>
+                    <div class="price">$2,499<span>/mo</span></div>
+                    <ul class="pricing-features">
+                        <li>Unlimited MAU</li>
+                        <li>Everything in Business</li>
+                        <li>Custom integrations</li>
+                        <li>Dedicated agents</li>
+                        <li>SLA guarantee (99.99%)</li>
+                        <li>SOC 2 compliance</li>
+                        <li>White-label option</li>
+                        <li>24/7 phone support</li>
+                    </ul>
+                    <a href="#" class="btn btn-secondary" style="width: 100%; margin-top: 20px;">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 RoadAuth by BlackRoad OS. Open source and production-ready.</p>
+            <div class="footer-links">
+                <a href="https://github.com/blackroad-os/roadauth">GitHub</a>
+                <a href="#">Documentation</a>
+                <a href="#">API Reference</a>
+                <a href="#">Support</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
